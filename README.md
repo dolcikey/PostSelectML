@@ -27,9 +27,8 @@ PostScriptML can minimize time spent on processing by making the selection proce
 Here are all the files found in the PostScriptML Repository.
 
 ### README.md - You are Here - General Overview of the Repository
-### 01_PostScriptML_Cleaning.ipynb - Image break down and clean up
-### 02_PostScriptML_EDA.ipynb - Visualizations and some Exploration of the Images
-### 03_PostScriptML_Modeling.ipynb - Model coding notebook
+### 01_PostScriptML_EDA.ipynb - Data Preparation and EDA Notebook, includes augmentation of the 		image sets, visualizations and some exploration of the images
+### 02_PostScriptML_Modeling.ipynb - Model coding notebook
 ### Scripts - for adding models to the AWS Files, Models
 ### Visuals - PNG files of all visuals in the EDA and Modeling Notebooks
 
@@ -83,9 +82,9 @@ Data Considerations
 First, I began by gathering data. I did this by gathering .NEF files, creating more images on 4 additonal shoots to supplement my data, and sorting through to label the select and reject classes. Once done, I broke the shoots up into training, test, and validation sets. 
 
 
-## Cleaning/EDA
+## Data Preparation and EDA 
 	Connecting S3 bucket from AWS to import test, train, and validation files. 
-	Augmentation of the selects by horizontally flipping each image. 
+	Augmentation of the selects by horizontally flipping each image using Keras. 
 	Visualizations of class imbalance, subject models by race.
 
 	Image compression and reshaping. 
