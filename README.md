@@ -12,18 +12,18 @@ The idea behind this model is that once trained with a vast amount of knowlege t
 
 ## Business Case
 
-Many businesses rely on content for marketing in the form of photographs. From E-commerce sites, to social media driven businesses, to smaller businesses like wedding photographers, these businesses all rely on a steady stream of photrography. 
+Many businesses rely on content for marketing in the form of photographs. From E-commerce sites, to social media driven businesses, to smaller businesses like wedding photographers, these businesses all rely on a steady stream of photographic content. 
 
 ### Usual photography work flow
 #### Shoot > Download images > Pre-Selection Process > Selection Process > Edit Images > Export
 
-During the post shoot process, after images are downloaded, many photographers spend hours sorting through hundreds or thousands of images during what is called the selection process. Similar to data science, this can be an iterative process with multiple reviews of the photos for selection. Some businesses and photographers have assistants or interns sort through these images. PostScriptML aims to minimize time spent in the selection process using a convelutional neural network to filter images and return back the images that meet a certain criteria. 
+During the post shoot process, after images are downloaded, many photographers spend hours sorting through hundreds or thousands of images during what is called the selection process. Similar to data science, this can be an iterative process with multiple reviews of the photos for selection. Some businesses and photographers have assistants or interns sort through these images. PostScriptML aims to minimize time spent in the pre-selection and selection processes using a convelutional neural network to filter images and return back the images that meet a certain probability of "idealness" in order to move on to the editing process. 
 
 PostScriptML can minimize time spent on processing by making the selection process an unsupervised task saving time, money, and minimizing the probability of rejecting a great image. 
 
 
 
-## Directory
+## Repository Navigation 
 Here are all the files found in the PostScriptML Repository.
 
 ### README.md - You are Here - General Overview of the Repository
@@ -35,7 +35,7 @@ Here are all the files found in the PostScriptML Repository.
 
 ## Data
 
-I used RAW .NEF (Nikon) images from my archived shoots as well as incorporating 5 new shoots specifically for this project. All images used with the models' consent for this project. The two classes for these images were select (selected) and reject (rejected). 
+I used RAW .NEF (Nikon) images from my archived shoots as well as incorporating 4 new shoots specifically for this project. All images used with the models' consent for this project. The two classes for these images are select (selected) and reject (rejected). 
 
 Data Considerations
 
@@ -49,20 +49,20 @@ Data Considerations
 
 2. Racial Bias 
 	
-	To minimize potential race bias of the model, I was able to include a mix of Caucasion, Dominican, African American, Asian, and bi-racial models. 
+	To minimize any potential racial bias of the model, I was able to include a mix of Caucasion, Dominican, African American, Asian, and bi-racial (Asian-Hispanic) models. 
 
 	<Racial Breakdown of All Images> <Racial Breakdown of Train Images>
 	<Racial Breakdown of Test Images> <Racial Breakdown of Validation Images>
 
 3. Image Size
 	
-	The nature of .NEF files is that they are 14 bytes to a pixel making for large images. These are the images that professional photographers use to keep all data in an image for editing. Once edited, the image is then exported to a .jpg or other file type depending on its intended usage. 
+	The nature of .NEF files is that they are 14 bytes to a pixel making for large images. These are the images that professional photographers use to keep all data in an image for editing. Once edited, the image is then compressed via the exporting process to a .jpg or other file type depending on its intended usage. 
 
 	Images in this data set in their RAW form ranged from 9.6 MB to 65.5 MB. All but one set of images came from a Nikon Z7 camera using a XQD memory card, the smaller set from a Nikon D90 using a SD memory card. The smallest set was used in the validation set. 
 
 	Images were stored using an S3 bucket for use in a SageMaker Notebook Instance where the modeling took place. Images were presorted into test, train, and validation folders where each subject(human model) was isolated to only one folder to prevent data leakage. 
 
-	The total data size for all imaages was [insert GB of data for final project]
+	The total data size for all imaages was [insert GB of data for final project here]
 
 4. Personal/Artistic Bias
 	
@@ -78,22 +78,36 @@ Data Considerations
 
 	<class imbalance image>
 
+# The Process 
+
+First, I began by gathering data. I did this by gathering .NEF files, creating more images on 4 additonal shoots to supplement my data, and sorting through to label the select and reject classes. Once done, I broke the shoots up into training, test, and validation sets. 
+
 
 ## Cleaning/EDA
 	Connecting S3 bucket from AWS to import test, train, and validation files. 
-	Visualizations of class imbalance, subject models by race
+	Augmentation of the selects by horizontally flipping each image. 
+	Visualizations of class imbalance, subject models by race.
+
+	Image compression and reshaping. 
 
 ## Modeling
+	AWS notebook
+	Metrics used
 
+
+# Reproduction Instructions
+
+# Presentation Deck 
+	<link here>
 
 
 # Conclusion
 
 
 
-# Further Steps 
+# Future Steps 
 
-## Future Layers Integration 
+## Layers Integration 
 
 I would like to create layers to specifically focus on:
 
@@ -102,18 +116,25 @@ I would like to create layers to specifically focus on:
 	- Symmetry
 	- Angles
 
+## Apps and Software Development 
+
 I would like to further expand this model into an app and also eventually work towards building software that can be integrated into a camera for real time analysis of angles, framing, and balance. 
 
-Sources: 
+## Sources: 
 
 Photographs by Dolci Key Photography
 
-Models without whom, this data would have been hard to find elsewhere. 
+Image Subjects (Models) without whom, this data would have been hard to find elsewhere:
 Kristen Heavy, Samayah Jaramillo, Bethany Chasteen, Joanna Pauline, Skylar Bumgartner, Christina
 
+Image Storage by AWS S3 Buckets
+Modeling powered by AWS SageMaker 
+
+Scripts
+Code  
 
 
-README correctly includes all required elements: data science process steps, future improvement ideas, repository navigation, reproduction instructions, links to presentation and sources.
+
 
 
 
