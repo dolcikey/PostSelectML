@@ -1,6 +1,8 @@
 
 
- 
+## Things to ignore  
 .ipynb_checkpoints/
 DATA
 PKL
+SCRIPTS
+
