@@ -61,7 +61,7 @@ Data Considerations
 
 	Images were stored using an S3 bucket for use in a SageMaker Notebook Instance where the modeling took place. Images were presorted into test, train, and validation folders where each subject(human model) was isolated to only one folder to prevent data leakage. 
 
-	The total data size for all imaages was [insert GB of data for final project here]
+	The total data size for all images was 186.64, so these I batch compressed using Capture NX-D to 500 pixels by 300 pixels before moving forward to save time in uploading and modeling. 
 
 4. Personal/Artistic Bias
 	
@@ -114,6 +114,10 @@ I would like to create layers to specifically focus on:
 	- Rule of Thirds
 	- Symmetry
 	- Angles
+
+## Image Size
+
+I would like to be able to include code to compress a .NEF image so that .NEF images could be automatically fed into the model, but for this model which is more proof of concept, compressed images were needed. 
 
 ## Apps and Software Development 
 
