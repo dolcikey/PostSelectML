@@ -42,7 +42,8 @@ def keras_model_fn(hyperparameters):
 
     opt = RMSPropOptimizer(learning_rate=hyperparameters['learning_rate'], decay=hyperparameters['decay'])
 
-    model.compile(loss='binary_crossentropy', optimizer=opt, metrics=['accuracy'])
+    model.compile(loss='binary_crossentropy', optimizer=opt, metrics=['recall'], 
+                  _tuning_objective_metric  = ['f1', 'recall', 'accuracy'])
     return model
 
 
