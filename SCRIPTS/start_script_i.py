@@ -4,8 +4,8 @@ from tensorflow.python.keras.layers import Conv2D, MaxPooling2D, Dropout, Flatte
 from tensorflow.python.keras.preprocessing.image import ImageDataGenerator
 from tensorflow.python.training.rmsprop import RMSPropOptimizer
 
-HEIGHT = 450
-WIDTH = 450
+HEIGHT = 500
+WIDTH = 333
 DEPTH = 3
 NUM_CLASSES = 2
 BATCH_SIZE = 64
@@ -40,7 +40,7 @@ def keras_model_fn(hyperparameters):
 
     opt = RMSPropOptimizer(learning_rate=hyperparameters['learning_rate'], decay=hyperparameters['decay'])
 
-    model.compile(loss='categorical_crossentropy', optimizer=opt, metrics=["accuracy"])
+    model.compile(loss='categorical_crossentropy', optimizer=opt, metrics=['recall', 'f1'])
     return model
 
 
@@ -75,3 +75,6 @@ def _input(mode, batch_size, data_dir):
     images, labels = generator.next()
 
     return {INPUT_TENSOR_NAME: images}, labels
+
+
+# This script is based off the script created by Paul Breton (Medium Article: Keras in the cloud with Amazon SageMaker)
