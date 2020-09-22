@@ -40,7 +40,7 @@ def keras_model_fn(hyperparameters):
 
     opt = RMSPropOptimizer(learning_rate=hyperparameters['learning_rate'], decay=hyperparameters['decay'])
 
-    model.compile(loss='categorical_crossentropy', optimizer=opt, metrics=["accuracy"])
+    model.compile(loss='categorical_crossentropy', optimizer=opt, metrics=['recall', 'f1'])
     return model
 
 
@@ -75,3 +75,6 @@ def _input(mode, batch_size, data_dir):
     images, labels = generator.next()
 
     return {INPUT_TENSOR_NAME: images}, labels
+
+
+# This script is based off the script created by Paul Breton (Medium Article: Keras in the cloud with Amazon SageMaker)
