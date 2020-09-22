@@ -9,7 +9,8 @@ WIDTH = 333
 DEPTH = 3
 NUM_CLASSES = 2
 BATCH_SIZE = 32
-INPUT_TENSOR_NAME = "inputs_input" # According to Amazon, needs to match the name of the first layer + "_input"
+INPUT_TENSOR_NAME = "inputs_input" # According to Amazon, needs to match the name of the 
+                                   # first layer + "_input"
                                    # Workaround for actual known bugs
 
 def keras_model_fn(hyperparameters):
@@ -40,7 +41,7 @@ def keras_model_fn(hyperparameters):
 
     opt = RMSPropOptimizer(learning_rate=hyperparameters['learning_rate'], decay=hyperparameters['decay'])
 
-    model.compile(loss='binary_crossentropy', optimizer=opt, metrics=['recall', 'f1'])
+    model.compile(loss='binary_crossentropy', optimizer=opt, metrics=['accuracy'])
     return model
 
 
