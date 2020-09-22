@@ -4,8 +4,8 @@ from tensorflow.python.keras.layers import Conv2D, MaxPooling2D, Dropout, Flatte
 from tensorflow.python.keras.preprocessing.image import ImageDataGenerator
 from tensorflow.python.training.rmsprop import RMSPropOptimizer
 
-HEIGHT = 450
-WIDTH = 450
+HEIGHT = 500
+WIDTH = 333
 DEPTH = 3
 NUM_CLASSES = 2
 BATCH_SIZE = 64
@@ -34,7 +34,7 @@ def keras_model_fn(hyperparameters):
     model.add(Flatten())
 
     model.add(Dense(256, activation="relu"))
-    model.add(Dense(256, activation="relu"))
+    model.add(Dense(256, activation="sigmoid"))
     model.add(Dropout(0.25))
     model.add(Dense(2, activation="softmax"))
 
