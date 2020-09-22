@@ -8,7 +8,7 @@ HEIGHT = 500
 WIDTH = 333
 DEPTH = 3
 NUM_CLASSES = 2
-BATCH_SIZE = 64
+BATCH_SIZE = 32
 INPUT_TENSOR_NAME = "inputs_input" # According to Amazon, needs to match the name of the first layer + "_input"
                                    # Workaround for actual known bugs
 
@@ -40,7 +40,7 @@ def keras_model_fn(hyperparameters):
 
     opt = RMSPropOptimizer(learning_rate=hyperparameters['learning_rate'], decay=hyperparameters['decay'])
 
-    model.compile(loss='categorical_crossentropy', optimizer=opt, metrics=['recall', 'f1'])
+    model.compile(loss='binary_crossentropy', optimizer=opt, metrics=['recall', 'f1'])
     return model
 
 
@@ -64,8 +64,7 @@ def _input(mode, batch_size, data_dir):
     if mode == tf.estimator.ModeKeys.TRAIN:
         datagen = ImageDataGenerator(
             rescale=1. / 255,
-            shear_range=0.2,
-            zoom_range=0.2,
+            zoom_range=0.3,
             horizontal_flip=True
         )
     else:
