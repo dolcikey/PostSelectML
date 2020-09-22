@@ -3,6 +3,7 @@ from tensorflow.python.keras import Sequential
 from tensorflow.python.keras.layers import Conv2D, MaxPooling2D, Dropout, Flatten, Dense
 from tensorflow.python.keras.preprocessing.image import ImageDataGenerator
 from tensorflow.python.training.rmsprop import RMSPropOptimizer
+import os
 
 HEIGHT = 500
 WIDTH = 333
