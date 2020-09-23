@@ -26,11 +26,22 @@ PostScriptML can minimize time spent on processing by making the selection proce
 ## Repository Navigation 
 Here are all the files found in the PostScriptML Repository.
 
-### README.md - You are Here - General Overview of the Repository
-### 01_PostScriptML_EDA.ipynb - Data Preparation and EDA Notebook, includes augmentation of the 		image sets, visualizations and some exploration of the images
-### 02_PostScriptML_Modeling.ipynb - Model coding notebook
-### SCRIPTS - for adding models to the AWS Files, Models
-### VISUALS - PNG files of all visuals in the EDA and Modeling Notebooks
+- README.md 
+	- You are Here 
+	- General Overview of the Repository
+
+- 01_PostScriptML_EDA.ipynb 
+	- Data Preparation and EDA Notebook, includes visualizations of the break down of the data
+
+- 02_PostScriptML_Modeling.ipynb 
+	- Model coding notebook, function for running the modeling scripts
+
+- SCRIPTS 
+	- model coding scripts
+
+- VISUALS 
+	- PNG files of all visuals in the EDA and Modeling Notebooks
+	- Other visuals found in the README from the presentation
 
 ## Data
 
@@ -163,7 +174,7 @@ I would like to further expand this model into an app and also eventually work t
 Photographs by Dolci Key Photography
 
 Image Subjects (Models) without whom, this data would have been hard to find elsewhere:
-Kristen Heavy, Samayah Jaramillo, Bethany Chasteen, Joanna Pauline, Skylar Bumgardner
+Kristen Heavy, Samayah Jaramillo, Bethany Chasteen, Joanna Pauline
 
 Image Storage by AWS S3 Buckets
 Modeling powered by AWS SageMaker 
