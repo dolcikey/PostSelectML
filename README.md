@@ -21,7 +21,7 @@ During the post shoot process, after images are downloaded, many photographers s
 
 PostScriptML can minimize time spent on processing by making the selection process an unsupervised task saving time, money, and minimizing the probability of rejecting a great image. 
 
-
+<img src="./VISUALS/selection_process.png">
 
 ## Repository Navigation 
 Here are all the files found in the PostScriptML Repository.
@@ -29,8 +29,8 @@ Here are all the files found in the PostScriptML Repository.
 ### README.md - You are Here - General Overview of the Repository
 ### 01_PostScriptML_EDA.ipynb - Data Preparation and EDA Notebook, includes augmentation of the 		image sets, visualizations and some exploration of the images
 ### 02_PostScriptML_Modeling.ipynb - Model coding notebook
-### Scripts - for adding models to the AWS Files, Models
-### Visuals - PNG files of all visuals in the EDA and Modeling Notebooks
+### SCRIPTS - for adding models to the AWS Files, Models
+### VISUALS - PNG files of all visuals in the EDA and Modeling Notebooks
 
 ## Data
 
@@ -40,18 +40,20 @@ Data Considerations
 
 1. Class Imbalance
 
-	Due to the nature of selects, there is often a large class imbalance when it comes to selected images verses the rejected images. This set was no different. To deal with class imbalance, all images of the selects sets were augmented by flipping them horizontally. This allowed the image to be different, but the same image to help boost the selected class. 
+	To deal with class imbalance, all images of the selects sets were augmented by flipping them horizontally. This allowed the image to be different, but the same image to help boost the selected class. 
 
-	Even with augmented images, this set is still very imbalanced, so using weighting methods in Keras also helped mitigate the imbalance issues. 
+	<img src="./VISUALS/horizontal_aug.png">
 
-	<class imbalance>
+	Due to the nature of selects, there is often a large class imbalance when it comes to selected images verses the rejected images. This set was no different. Even with augmented images, this set is still very imbalanced, so using weighting methods in Keras also helped mitigate the imbalance issues. 
+
+	<img src="./VISUALS/class_imbalance.png"> <img src="./VISUALS/class_imbalance_aug.png"> 
+
 
 2. Racial Bias 
 	
 	To minimize any potential racial bias of the model, I was able to include a mix of Caucasion, Dominican, African American, Asian, and bi-racial (Asian-Hispanic) models. 
 
-	<Racial Breakdown of All Images> <Racial Breakdown of Train Images>
-	<Racial Breakdown of Test Images> <Racial Breakdown of Validation Images>
+	<img src="./VISUALS/data_by_race.png"> <img src="./VISUALS/select_reject_race.png">
 
 3. Image Size
 	
@@ -61,80 +63,114 @@ Data Considerations
 
 	Images were stored using an S3 bucket for use in a SageMaker Notebook Instance where the modeling took place. Images were presorted into test, train, and validation folders where each subject(human model) was isolated to only one folder to prevent data leakage. 
 
-	The total data size for all images was 186.64, so these I batch compressed using Capture NX-D to 500 pixels by 300 pixels before moving forward to save time in uploading and modeling. 
+	The total data size for all images was 186.64, so these I batch compressed using Capture NX-D to 500 pixels by 300 pixels before moving forward to save time in uploading and modeling. After compression the data was 
+
 
 4. Personal/Artistic Bias
 	
 	As I have personally selected what I believe to be most ideal for the data, there could be some artistic bias included in this model. I mainly focused on balance, eye focus, rule of thirds, and symmetry to make decisions on wether or not the photo should qualify as selected. Artistically blurry photos were not included as ideal, and photographers who are more artistic with movement may not benefit from this model. However, most photographers in business cases are looking for similar elements for their clients wether in portrait photography, advertisments, or e-commerce.  
 
-	<selected image> <similar reject image>
+	<img src="./VISUALS/ArtisticBias.png">
 
-	3. Class Imbalance
-
-	Due to the nature of selects, there is often a large class imbalance when it comes to selected images verses the rejected images. This set was no different. To deal with class imbalance, all images of the selects sets were augmented by flipping them horizontally. This allowed the image to be different, but the same image to help boost the selected class. 
-
-	Even with augmented images, this set is still very imbalanced, so using weighting methods in Keras also helped mitigate the imbalance issues. 
-
-	<class imbalance image>
 
 # The Process 
 
-First, I began by gathering data. I did this by gathering .NEF files, creating more images on 4 additonal shoots to supplement my data, and sorting through to label the select and reject classes. Once done, I broke the shoots up into training, test, and validation sets. 
-
+First, I began by gathering data. I did this by gathering .NEF files, creating more images by doing additonal shoots to supplement my data, and sorting through to label the select and reject classes. Once done, I broke the shoots up into training, test, and validation sets.
 
 ## Data Preparation and EDA 
-	Connecting S3 bucket from AWS to import test, train, and validation files. 
-	Augmentation of the selects by horizontally flipping each image using Keras. 
-	Visualizations of class imbalance, subject models by race.
 
-	Image compression and reshaping. 
+	Images were taken in .NEF raw form. They were labeled select or reject. 
+	Once labeled, images were compressed in a batch process using Nikon Capture NX-D.
+
+	Visualizations of class imbalance, subject models by race. 
+
+	Connected an AWS S3 bucket from to import test, train, and validation files. 
+	Augmentation of the selects by horizontally flipping each image using Keras in the model scripts. 
+
+
 
 ## Modeling
-	AWS notebook
-	Metrics used
+
+Amazon SageMaker coding and script writing referenced and based off a tutorial by Paul Breton 
+https://blog.betomorrow.com/keras-in-the-cloud-with-amazon-sagemaker-67cf11fb536
+
+	
+	AWS SageMaker Notebook using an m4.xlarge instance. 
+
+	
+	Metrics
+		- Parameters internal to the model
+			-tuning metrics: recall, f1_score
+		- Loss Function 
+			- Binary Cross Entropy
+		- Accuracy 
+			- Binary Accuracy
+
+## Modeling Evaluation 
+
+
+Model | Binary Accuracy | Loss
+------------ | ------------- | ------------
+Baseline | 0.9375 | 1.00189
+model_script_ii.py| 0.90625 | 0.38386
+model_script_iii.py | 0.9375 | 0.34514
+
+In the first few models I as able to run, the baseline was very high for Binary Accuracy. 
+I worked on minimizing loss by adding tuning metrics such as recall and f1_score into the training process to minimize false negatives. I would rather edit one rejected photo than lose out on a photo that should have been selected. 
 
 
 # Reproduction Instructions
 
-# Presentation Deck 
-	<link here>
+Amazon Web Services
+
+Create an S3 Bucket with 'sagemaker-' as the prefix. 
+	- load in your images. (This data set is not available publically due to usage agreements)
+
+Create a SageMaker notebook instance, before creating, scroll down to connect your github repo during this configuration. Please note that the instance size will depend based on the data you are using for modeling.
+
+Once these are set up, launch Jupyter Labs and the github repo should appear.
+Connect the S3 bucket using the code in the 002 Modeling notebook. 
+
+Use the function in the Modeling notebook to run .py file scripts. 
+Please note any libraries used must be included in the scripts, or they will throw an error. 
+Make sure to include 'import os' when importing libraries in the script. 
+
+# Presentation Slides 
+	<https://www.icloud.com/keynote/0V2Tb4WzKV0RzKrj4m9JJtIMw#PostScriptML_-_MVP>
 
 
-# Conclusion
+# Conclusion and Future Steps 
 
+The baseline model preformed much better than expected, and I was able to minimize the loss within the first couple of models. I think this shows that the potential for this model is very high, and that this could work for a business case. 
 
+I did run into issues with needing more people/diversity and images due to not wanting any models to be repeated in the train, test, and validation images. I plan to add a couple more photo sessions into the data and see if this helps fix that issue. 
 
-# Future Steps 
+Additional metrics would be nice to have. The way AWS allows models to run is quite specific. In the next week I will delve into metrics with the models I have run as well as optimizing and building in layers to help with the image evaluation.  
 
-## Layers Integration 
-
-I would like to create layers to specifically focus on:
-
-	- Eye Focus
-	- Rule of Thirds
-	- Symmetry
-	- Angles
 
 ## Image Size
 
-I would like to be able to include code to compress a .NEF image so that .NEF images could be automatically fed into the model, but for this model which is more proof of concept, compressed images were needed. 
+I would like to be able to include code to compress a .NEF image so that .NEF images could be automatically fed into the model, but for this model which is more proof of concept, compressed images were needed due to fime and hardware constraints. 
+
+I would also like to find a way to not have to compress images so much as I believe the compression really loses a lot of the image. However, this did not seem the case when the Binary Accuracy was referenced. 
 
 ## Apps and Software Development 
 
 I would like to further expand this model into an app and also eventually work towards building software that can be integrated into a camera for real time analysis of angles, framing, and balance. 
 
-## Sources: 
+## Additional Sources: 
 
 Photographs by Dolci Key Photography
 
 Image Subjects (Models) without whom, this data would have been hard to find elsewhere:
-Kristen Heavy, Samayah Jaramillo, Bethany Chasteen, Joanna Pauline, Skylar Bumgartner, Christina
+Kristen Heavy, Samayah Jaramillo, Bethany Chasteen, Joanna Pauline, Skylar Bumgardner
 
 Image Storage by AWS S3 Buckets
 Modeling powered by AWS SageMaker 
 
-Scripts
-Code  
+Thank you to Aren Carpenter for help troubleshooting the S3 code and modeling errors. 
+
+
 
 
 
