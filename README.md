@@ -122,7 +122,7 @@ https://blog.betomorrow.com/keras-in-the-cloud-with-amazon-sagemaker-67cf11fb536
 
 Model | Binary Accuracy | Loss
 ------------ | ------------- | ------------
-Baseline | 0.9375 | 1.00189
+baseline_model.py | 0.9375 | 1.00189
 model_script_ii.py| 0.90625 | 0.38386
 model_script_iii.py | 0.9375 | 0.34514
 
