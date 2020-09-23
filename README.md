@@ -147,7 +147,7 @@ Please note any libraries used must be included in the scripts, or they will thr
 Make sure to include 'import os' when importing libraries in the script. 
 
 # Presentation Slides 
-	<https://www.icloud.com/keynote/0V2Tb4WzKV0RzKrj4m9JJtIMw#PostScriptML_-_MVP>
+	https://www.icloud.com/keynote/0V2Tb4WzKV0RzKrj4m9JJtIMw#PostScriptML_-_MVP
 
 
 # Conclusion and Future Steps 
