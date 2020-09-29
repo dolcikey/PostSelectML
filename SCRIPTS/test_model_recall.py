@@ -1,10 +1,19 @@
-import tensorflow as tf
-from tensorflow.python.keras import Sequential
-from tensorflow.python.keras.layers import Conv2D, MaxPooling2D, Dropout, Flatten, Dense
-from tensorflow.python.keras.preprocessing.image import ImageDataGenerator
-from tensorflow.python.keras import metrics
-from tensorflow.python.training.rmsprop import RMSPropOptimizer
+import numpy as np
+
+import matplotlib.pyplot as plt
+%matplotlib inline
+plt.style.use('fivethirtyeight')
+
+from PIL import Image
+from tensorflow.keras.preprocessing import image, image_dataset_from_directory
+from tensorflow.keras import models, layers, optimizers
+from keras.callbacks import ModelCheckpoint
+from tensorflow.keras.layers import BatchNormalization
+
 import os
+import gc
+from timeit import default_timer as timer
+
 
 HEIGHT = 500
 WIDTH = 333
@@ -18,33 +27,19 @@ INPUT_TENSOR_NAME = "inputs_input" # According to Amazon, needs to match the nam
 def keras_model_fn(hyperparameters):
     model = Sequential()
 
-    model.add(Conv2D(32, kernel_size=(3, 3), input_shape=(HEIGHT, WIDTH, DEPTH), activation="relu", name="inputs",
-                     padding="same"))
+    model.add(Conv2D(32, kernel_size=(3, 3), input_shape=(HEIGHT, WIDTH, DEPTH), activation="relu", name="inputs", padding="same"))
+    
     model.add(MaxPooling2D())
-    model.add(Conv2D(32, kernel_size=(3, 3), activation="relu"))
-    model.add(MaxPooling2D())
-    model.add(Dropout(0.25))
-
-    model.add(Conv2D(64, kernel_size=(3, 3), activation="relu", padding="same"))
-    model.add(MaxPooling2D())
-    model.add(Conv2D(64, kernel_size=(3, 3), activation="relu"))
-    model.add(MaxPooling2D())
-    model.add(Dropout(0.25))
-
-    model.add(Conv2D(128, kernel_size=(3, 3), activation="sigmoid", padding="same"))
-    model.add(MaxPooling2D())
-    model.add(Dropout(0.25))
+    
     model.add(Flatten())
-
+    
     model.add(Dense(256, activation="relu"))
-    model.add(Dense(256, activation="sigmoid"))
-    model.add(Dropout(0.25))
-    model.add(Dense(1, activation="sigmoid"))
+    model.add(Dense(2, activation="softmax"))
 
     opt = RMSPropOptimizer(learning_rate=hyperparameters['learning_rate'], decay=hyperparameters['decay'])
 
     model.compile(loss='binary_crossentropy', optimizer=opt, metrics=[metrics.binary_accuracy, 
-                'accuracy'],_tuning_objective_metric  = [recall, f1_score])
+                                                                      'accuracy'])
     return model
 
 
@@ -70,7 +65,7 @@ def _input(mode, batch_size, data_dir):
             rescale=1. / 255,
             zoom_range=0.3,
             horizontal_flip=True # This portion horizontally flips all the evaluation images adding 
-                                 # these agumented images to help remedy the class imbalance problem. 
+                                 # these agumented images to help remedy the class imbalance problem.
         )
     else:
         datagen = ImageDataGenerator(rescale=1. / 255)
