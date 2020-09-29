@@ -1,4 +1,4 @@
-# PostScriptML 
+# PostSelectML 
 ## A Machine Learning based rating tool for selecting your most ideal raw images so you don't have to. 
 
 ### Created by Dolci Key Sanders
@@ -15,26 +15,29 @@ The idea behind this model is that once trained with a vast amount of knowlege t
 Many businesses rely on content for marketing in the form of photographs. From E-commerce sites, to social media driven businesses, to smaller businesses like wedding photographers, these businesses all rely on a steady stream of photographic content. 
 
 ### Usual photography work flow
-#### Shoot > Download images > Pre-Selection Process > Selection Process > Edit Images > Export
+#### Shoot > Download images > Selection Process > Potential Secondary Selection Process > Edit Images > Export/Deliver to Client
 
 During the post shoot process, after images are downloaded, many photographers spend hours sorting through hundreds or thousands of images during what is called the selection process. Similar to data science, this can be an iterative process with multiple reviews of the photos for selection. Some businesses and photographers have assistants or interns sort through these images. PostScriptML aims to minimize time spent in the pre-selection and selection processes using a convelutional neural network to filter images and return back the images that meet a certain probability of "idealness" in order to move on to the editing process. 
 
-PostScriptML can minimize time spent on processing by making the selection process an unsupervised task saving time, money, and minimizing the probability of rejecting a great image. 
+PostSelectML can minimize time spent on processing by making the selection process an unsupervised task saving time, money, and minimizing the probability of rejecting a great image. 
 
 <img src="./VISUALS/selection_process.png">
 
 ## Repository Navigation 
-Here are all the files found in the PostScriptML Repository.
+Here are all the files found in the PostSelectML Repository.
 
 - README.md 
 	- You are Here 
 	- General Overview of the Repository
 
-- 01_PostScriptML_EDA.ipynb 
+- 01_PostSelectML_EDA.ipynb 
 	- Data Preparation and EDA Notebook, includes visualizations of the break down of the data
 
-- 02_PostScriptML_Modeling.ipynb 
-	- Model coding notebook, function for running the modeling scripts
+- 02_PostSelectML_Modeling.ipynb 
+	- Model coding notebook, function for running the modeling scripts in AWS SageMaker
+
+- 0e_PostSelectML_Modeling_Local.ipynb 
+	- Model coding notebook, function for running the best modeling script locally
 
 - SCRIPTS 
 	- model coding scripts
@@ -42,6 +45,9 @@ Here are all the files found in the PostScriptML Repository.
 - VISUALS 
 	- PNG files of all visuals in the EDA and Modeling Notebooks
 	- Other visuals found in the README from the presentation
+
+- PostSelectML_Deck.pdf
+	- Presentation Slides 
 
 ## Data
 
@@ -146,9 +152,6 @@ Use the function in the Modeling notebook to run .py file scripts.
 Please note any libraries used must be included in the scripts, or they will throw an error. 
 Make sure to include 'import os' when importing libraries in the script. 
 
-# Presentation Slides 
-	https://www.icloud.com/keynote/0V2Tb4WzKV0RzKrj4m9JJtIMw#PostScriptML_-_MVP
-
 
 # Conclusion and Future Steps 
 
@@ -174,7 +177,10 @@ I would like to further expand this model into an app and also eventually work t
 Photographs by Dolci Key Photography
 
 Image Subjects (Models) without whom, this data would have been hard to find elsewhere:
-Kristen Heavy, Samayah Jaramillo, Bethany Chasteen, Joanna Pauline
+- Kristen Heavey @kristenheavey
+- Samayah Jaramillo @samayahjaramillo
+- Bethany Chasteen @officialchasteen
+- Joanna Pauline @thejoannapauline
 
 Image Storage by AWS S3 Buckets
 Modeling powered by AWS SageMaker 
