@@ -30,17 +30,20 @@ Here are all the files found in the PostSelectML Repository.
 	- You are Here 
 	- General Overview of the Repository
 
-- 01_PostSelectML_EDA.ipynb 
+- 01_Data_Process_EDA.ipynb 
 	- Data Preparation and EDA Notebook, includes visualizations of the break down of the data
 
-- 02_PostSelectML_Modeling.ipynb 
+- 02_Modeling_AWS_Sagemaker.ipynb 
 	- Model coding notebook, function for running the modeling scripts in AWS SageMaker
 
-- 0e_PostSelectML_Modeling_Local.ipynb 
-	- Model coding notebook, function for running the best modeling script locally
+- 03_Modeling_Local.ipynb 
+	- Model coding notebook, function for running the best models
+
+- 04_Modeling_Local_Further_Augmented.ipynb 
+	- Further augmenting the data to see if models improve and reduce overfitting
 
 - SCRIPTS 
-	- model coding scripts
+	- model coding scripts and models
 
 - VISUALS 
 	- PNG files of all visuals in the EDA and Modeling Notebooks
@@ -80,8 +83,7 @@ Data Considerations
 
 	Images were stored using an S3 bucket for use in a SageMaker Notebook Instance where the modeling took place. Images were presorted into test, train, and validation folders where each subject(human model) was isolated to only one folder to prevent data leakage. 
 
-	The total data size for all images was 186.64, so these I batch compressed using Capture NX-D to 500 pixels by 300 pixels before moving forward to save time in uploading and modeling. After compression the data was 
-
+	The total data size for all images was 186.64, so these I batch compressed using Capture NX-D to 500 pixels by 300 pixels before moving forward to save time in uploading and modeling.
 
 4. Personal/Artistic Bias
 	
@@ -105,26 +107,29 @@ First, I began by gathering data. I did this by gathering .NEF files, creating m
 	Augmentation of the selects by horizontally flipping each image using Keras in the model scripts. 
 
 
-
 ## Modeling
 
-Amazon SageMaker coding and script writing referenced and based off a tutorial by Paul Breton 
-https://blog.betomorrow.com/keras-in-the-cloud-with-amazon-sagemaker-67cf11fb536
-
+Amazon SageMaker coding and script writing referenced and based off a tutorial by Paul Breton.
 	
 	AWS SageMaker Notebook using an m4.xlarge instance. 
 
 	
 	Metrics
-		- Parameters internal to the model
-			-tuning metrics: recall, f1_score
-		- Loss Function 
-			- Binary Cross Entropy
+
+		- Recall 
+			- I would rather have some bad images predicted to be good than vice versa as that would risk tossing out a good photo
+
 		- Accuracy 
-			- Binary Accuracy
+			- Binary Accuracy (default accuracy measure in Keras for binary classification)
+
+		- Loss Function
+			- Aiming to minimize the loss score
+			- Specifically used Binary Cross Entropy
 
 ## Modeling Evaluation 
 
+
+AWS
 
 Model | Binary Accuracy | Loss
 ------------ | ------------- | ------------
@@ -132,8 +137,19 @@ baseline_model.py | 0.9375 | 1.00189
 model_script_ii.py| 0.90625 | 0.38386
 model_script_iii.py | 0.9375 | 0.34514
 
-In the first few models I as able to run, the baseline was very high for Binary Accuracy. 
+In the first few models I as able to run, the baseline was very high for Binary Accuracy, but this did not take into account the recall metric on AWS. 
+
 I worked on minimizing loss by adding tuning metrics such as recall and f1_score into the training process to minimize false negatives. I would rather edit one rejected photo than lose out on a photo that should have been selected. 
+
+Local Models 
+
+Model | Binary Accuracy | Loss
+------------ | ------------- | ------------
+vanilla_model | |
+weighted_vanilla | |
+vanilla_aug | |
+weighted_vanilla_aug | |
+model_script | |
 
 
 # Reproduction Instructions
@@ -155,18 +171,15 @@ Make sure to include 'import os' when importing libraries in the script.
 
 # Conclusion and Future Steps 
 
-The baseline model preformed much better than expected, and I was able to minimize the loss within the first couple of models. I think this shows that the potential for this model is very high, and that this could work for a business case. 
+The baseline model preformed much better than expected in training AWS, and I was able to minimize the loss within the first couple of models, however, the model did preform well during prediction, likely due to the class imbalance. I think this shows that the potential for this model is very high, and that this could work for a business case. 
 
-I did run into issues with needing more people/diversity and images due to not wanting any models to be repeated in the train, test, and validation images. I plan to add a couple more photo sessions into the data and see if this helps fix that issue. 
+I did run into issues with needing more people/diversity and images due to not wanting any models to be repeated in the train, test, and validation images. I plan to add a couple more photo sessions into the data and see if this helps fix that issue. I think due to the small data, this also had an impact on the preformance.  
 
-Additional metrics would be nice to have. The way AWS allows models to run is quite specific. In the next week I will delve into metrics with the models I have run as well as optimizing and building in layers to help with the image evaluation.  
-
+Local modeling was able to weight the classes, and also show recall metrics. This helped immensely, although the model tends to overfit quickly. Additional modeling and data should help increase model preformance.  
 
 ## Image Size
 
 I would like to be able to include code to compress a .NEF image so that .NEF images could be automatically fed into the model, but for this model which is more proof of concept, compressed images were needed due to fime and hardware constraints. 
-
-I would also like to find a way to not have to compress images so much as I believe the compression really loses a lot of the image. However, this did not seem the case when the Binary Accuracy was referenced. 
 
 ## Apps and Software Development 
 
@@ -184,6 +197,9 @@ Image Subjects (Models) without whom, this data would have been hard to find els
 
 Image Storage by AWS S3 Buckets
 Modeling powered by AWS SageMaker 
+
+Modeling AWS script based on Paul Breton's AWS SageMaker Article on Medium. 
+https://blog.betomorrow.com/keras-in-the-cloud-with-amazon-sagemaker-67cf11fb536
 
 Thank you to Aren Carpenter for help troubleshooting the S3 code and modeling errors. 
 
