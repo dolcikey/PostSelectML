@@ -133,11 +133,11 @@ AWS
 
 Model | Binary Accuracy | Loss
 ------------ | ------------- | ------------
-baseline_model.py | 0.9375 | 1.00189
+AWS vanilla_model.py | 0.9375 | 1.00189
 model_script_ii.py| 0.90625 | 0.38386
 model_script_iii.py | 0.9375 | 0.34514
 
-In the first few models I as able to run, the baseline was very high for Binary Accuracy, but this did not take into account the recall metric on AWS. 
+In the first few models I as able to run, the vanilla model was very high for Binary Accuracy, but this did not take into account the recall metric on AWS. 
 
 I worked on minimizing loss by adding tuning metrics such as recall and f1_score into the training process to minimize false negatives. I would rather edit one rejected photo than lose out on a photo that should have been selected. 
 
