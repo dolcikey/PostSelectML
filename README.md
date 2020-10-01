@@ -143,13 +143,12 @@ I worked on minimizing loss by adding tuning metrics such as recall and f1_score
 
 Local Models 
 
-Model | Binary Accuracy | Loss
+Model | Loss | Binary Accuracy | Recall
 ------------ | ------------- | ------------
-vanilla_model | |
-weighted_vanilla | |
-vanilla_aug | |
-weighted_vanilla_aug | |
-model_script | |
+vanilla_model | .480 | .837 | 0
+weighted_vanilla | .556 | .720 | 0.176
+vanilla_aug | .485| .837 | 0
+model_script_vi_aug | .710 | .1625 | .1625
 
 
 # Reproduction Instructions
@@ -172,6 +171,8 @@ Make sure to include 'import os' when importing libraries in the script.
 # Conclusion and Future Steps 
 
 The baseline model preformed much better than expected in training AWS, and I was able to minimize the loss within the first couple of models, however, the model did preform well during prediction, likely due to the class imbalance. I think this shows that the potential for this model is very high, and that this could work for a business case. 
+
+--I did have issues with recall metrics in Keras, on the hold out set, often the recall would be noted as 1 or 0, or very low 0.012 etc. Further exploration will be needed to resolve this issue. 
 
 I did run into issues with needing more people/diversity and images due to not wanting any models to be repeated in the train, test, and validation images. I plan to add a couple more photo sessions into the data and see if this helps fix that issue. I think due to the small data, this also had an impact on the preformance.  
 
